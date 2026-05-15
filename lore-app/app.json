@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Lore",
+    "slug": "lore-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "lore",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.lore.app"
+    },
+    "android": {
+      "package": "com.lore.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#000000"
+      }
+    },
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-localization",
+      "expo-image-picker"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
