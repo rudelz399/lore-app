@@ -7,7 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "lore",
     "userInterfaceStyle": "dark",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.lore.app"
@@ -15,7 +14,8 @@
     "android": {
       "package": "com.lore.app",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
         "backgroundColor": "#000000"
       }
     },
