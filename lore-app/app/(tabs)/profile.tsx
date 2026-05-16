@@ -19,18 +19,12 @@ export default function ProfileScreen() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  useFocusEffect(
-    useCallback(() => {
-      loadProfileData();
-    }, [userId, activeTab])
-  );
-
-  const loadProfileData = async () => {
+  const loadProfileData = useCallback(async () => {
     try {
       setLoading(true);
       const { data: { user: authUser } } = await supabase.auth.getUser();
       setCurrentUser(authUser);
-      
+
       const targetId = userId || authUser?.id;
       if (!targetId) return;
 
@@ -58,7 +52,13 @@ export default function ProfileScreen() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeTab, userId]);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadProfileData();
+    }, [loadProfileData])
+  );
 
   const handleLogout = async () => {
     Alert.alert("Logout", "Are you sure?", [

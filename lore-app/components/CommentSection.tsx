@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { supabase } from '../lib/supabase';
 
 interface Comment {
@@ -13,18 +13,21 @@ export default function CommentSection({ storyId, user }: { storyId: string | nu
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
 
-  useEffect(() => {
-    fetchComments();
-  }, [storyId]);
-
-  async function fetchComments() {
+  const fetchComments = useCallback(async () => {
     const { data } = await supabase
       .from('comments')
       .select('*')
       .eq('story_id', storyId)
       .order('created_at', { ascending: true });
     if (data) setComments(data);
-  }
+  }, [storyId]);
+
+  useEffect(() => {
+    const executeFetch = async () => {
+      await fetchComments();
+    };
+    executeFetch();
+  }, [fetchComments]);
 
   async function postComment() {
     if (!newComment.trim() || !user) return;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, Share, Alert, Modal, Pressable } from 'react-native';
 import { Heart, MessageCircle, Share2, X, UserPlus, UserCheck } from 'lucide-react-native';
 import { useRouter } from 'expo-router'; 
@@ -17,7 +17,7 @@ interface StoryProps {
   commentCount?: number;
 }
 
-export default function StoryCard({ id, authorId, author, content, imageUrl, mood, commentCount = 0 }: StoryProps) {
+export default function StoryCard({ id, authorId, author, content, imageUrl, mood, commentCount = 0 }: StoryProps): React.JSX.Element {
   const router = useRouter();
   const [likesCount, setLikesCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
@@ -25,16 +25,12 @@ export default function StoryCard({ id, authorId, author, content, imageUrl, moo
   const [modalVisible, setModalVisible] = useState(false);
   const [user, setUser] = useState<any>(null);
 
-  useEffect(() => {
-    setupCard();
-  }, [id, authorId]);
-
-  const setupCard = async () => {
-    const { data: { user: authUser } } = await supabase.auth.getUser();
-    setUser(authUser);
-    if (!authUser) return;
-
+  const setupCard = useCallback(async () => {
     try {
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      setUser(authUser);
+      if (!authUser) return;
+
       const { count } = await supabase.from('reactions').select('*', { count: 'exact', head: true }).eq('story_id', id);
       setLikesCount(count || 0);
 
@@ -45,8 +41,17 @@ export default function StoryCard({ id, authorId, author, content, imageUrl, moo
         const { data: followData } = await supabase.from('followers').select('id').eq('follower_id', authUser.id).eq('following_id', authorId).maybeSingle();
         setIsFollowing(!!followData);
       }
-    } catch (e) { console.warn(e); }
-  };
+    } catch (e) {
+      console.warn(e);
+    }
+  }, [id, authorId]);
+
+  useEffect(() => {
+    const executeSetup = async () => {
+      await setupCard();
+    };
+    executeSetup();
+  }, [setupCard]);
 
   const handleProfileNavigation = () => {
     // FIX: Using router.push with lowercase route
