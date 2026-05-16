@@ -10,16 +10,16 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.4",
-    "expo": "~55.0.24",
-    "expo-constants": "~19.0.2",
-    "expo-linking": "~9.0.2",
-    "expo-router": "~5.0.24",
-    "expo-status-bar": "~3.0.9",
+    "expo": "~55.0.9",
+    "expo-constants": "~55.0.9",
+    "expo-linking": "~55.0.9",
+    "expo-router": "~55.0.8",
+    "expo-status-bar": "~55.0.6",
     "lucide-react-native": "^0.395.0",
-    "react": "19.2.6",
+    "react": "19.2.0",
     "react-native": "0.83.6",
     "react-native-safe-area-context": "5.2.0",
-    "react-native-screens": "~4.16.0"
+    "react-native-screens": "~4.23.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
